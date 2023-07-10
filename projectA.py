@@ -1,3 +1,4 @@
+
 from dotenv import load_dotenv
 import os
 import requests
@@ -152,6 +153,7 @@ print(f"Percentage of private sector jobs recovered:{percentage_private_recovere
 loss_Job = job_may_23 - job_may_19
 loss_Job_change = (loss_Job / job_may_19)
 
+#print percent drop/number loss
 if loss_Job < 0:
     loss_Job_change = round(abs(loss_Job_change)*100)
     print(f"That's a {loss_Job_change} percent drop.")
@@ -541,4 +543,52 @@ else:
     print(f"That's a {loss_Nursing_change} percent gain.")
     loss_Nursing = round(abs(loss_All_Hosp)*1000)
     print(f"{loss_Nursing} nursing home jobs have been gained.")
-    
+
+import csv
+
+# Function to export data to CSV file
+def export_to_csv(file_name, headers, data):
+    with open(file_name, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(headers)
+        writer.writerows(data)    
+
+# Private sector jobs- make csv
+private_headers = ['Year and Month', 'Jobs in thousands']
+private_data = list(zip(months, employment))
+export_to_csv('private_sector_jobs.csv', private_headers, private_data)
+
+# Local government jobs
+local_headers = ['Year and Month', 'Jobs in thousands']
+local_data = list(zip(local_months, local_jobs))
+export_to_csv('local_government_jobs.csv', local_headers, local_data)
+
+# State government jobs
+state_headers = ['Year and Month', 'Jobs in thousands']
+state_data = list(zip(state_months, state_jobs))
+export_to_csv('state_government_jobs.csv', state_headers, state_data)
+
+# State government jobs excluding education
+noed_headers = ['Year and Month', 'Jobs in thousands']
+noed_data = list(zip(NoEd_months, NoEd_jobs))
+export_to_csv('state_government_jobs_excluding_education.csv', noed_headers, noed_data)
+
+# State government education jobs
+ed_headers = ['Year and Month', 'Jobs in thousands']
+ed_data = list(zip(Ed_months, Ed_jobs))
+export_to_csv('state_government_education_jobs.csv', ed_headers, ed_data)
+
+# State government hospital jobs
+hosp_headers = ['Year and Month', 'Jobs in thousands']
+hosp_data = list(zip(Hosp_months, Hosp_jobs))
+export_to_csv('state_government_hospital_jobs.csv', hosp_headers, hosp_data)
+
+#hospital jobs
+all_hosp_headers = ['Year and Month', 'Jobs in thousands']
+all_hosp_data = list(zip(All_Hosp_months, All_Hosp_jobs))
+export_to_csv('all_hospital_jobs.csv', all_hosp_headers, all_hosp_data)
+
+#nursing home jobs
+Nursing_headers = ['Year and Month', 'Jobs in thousands']
+Nursing_data = list(zip(Nursing_months, Nursing_jobs))
+export_to_csv('nursing_jobs.csv', Nursing_headers, Nursing_data)
